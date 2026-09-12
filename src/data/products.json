@@ -1,0 +1,230 @@
+[
+  {
+    "id": 1,
+    "title": "Оверсайз худи Streetwear",
+    "price": 4500,
+    "oldPrice": 5990,
+    "category": "Худи",
+    "brand": "Urban Wear",
+    "colors": ["#202126", "#d6a77a", "#4a6741"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "80% хлопок, 20% полиэстер · 320 г/м²",
+    "material": "Полиэстер",
+    "inStock": true,
+    "isNew": false,
+    "isBestseller": true
+  },
+  {
+    "id": 2,
+    "title": "Футболка Essential",
+    "price": 2390,
+    "oldPrice": null,
+    "category": "Футболки",
+    "brand": "Urban Wear",
+    "colors": ["#f2f0ea", "#1c1c1c", "#8b2e2e"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "100% премиальный хлопок · 180 г/м²",
+    "material": "100% Хлопок",
+    "inStock": true,
+    "isNew": true,
+    "isBestseller": true
+  },
+  {
+    "id": 3,
+    "title": "Джинсы Wide Leg",
+    "price": 5790,
+    "oldPrice": null,
+    "category": "Джинсы",
+    "brand": "Denim Lab",
+    "colors": ["#42627b", "#1c1c1c"],
+    "sizes": ["S", "M", "L"],
+    "images": [
+      "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "100% хлопок деним · 380 г/м²",
+    "material": "Деним",
+    "inStock": true,
+    "isNew": true,
+    "isBestseller": false
+  },
+  {
+    "id": 4,
+    "title": "Куртка Varsity",
+    "price": 8990,
+    "oldPrice": 10990,
+    "category": "Куртки",
+    "brand": "Urban Wear",
+    "colors": ["#18233a", "#e4d7c0"],
+    "sizes": ["M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1548126032-079a0fb0099d?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "65% полиэстер, 35% хлопок · 420 г/м²",
+    "material": "Полиэстер",
+    "inStock": true,
+    "isNew": false,
+    "isBestseller": true
+  },
+  {
+    "id": 5,
+    "title": "Свитшот Studio",
+    "price": 3990,
+    "oldPrice": null,
+    "category": "Худи",
+    "brand": "North Club",
+    "colors": ["#b0b4aa", "#313836", "#c9a87c"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "90% хлопок, 10% полиэстер · 300 г/м²",
+    "material": "100% Хлопок",
+    "inStock": true,
+    "isNew": false,
+    "isBestseller": false
+  },
+  {
+    "id": 6,
+    "title": "Бейсболка Signature",
+    "price": 1990,
+    "oldPrice": null,
+    "category": "Аксессуары",
+    "brand": "Urban Wear",
+    "colors": ["#161616", "#c28a54"],
+    "sizes": ["ONE SIZE"],
+    "images": [
+      "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "100% хлопок · твил",
+    "material": "100% Хлопок",
+    "inStock": false,
+    "isNew": false,
+    "isBestseller": false
+  },
+  {
+    "id": 7,
+    "title": "Карго-брюки Utility",
+    "price": 6490,
+    "oldPrice": 7990,
+    "category": "Джинсы",
+    "brand": "Monochrome",
+    "colors": ["#3b3b35", "#8a7560"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1594938298603-c8148c4b4bfa?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "100% хлопок рипстоп · 260 г/м²",
+    "material": "100% Хлопок",
+    "inStock": true,
+    "isNew": true,
+    "isBestseller": false
+  },
+  {
+    "id": 8,
+    "title": "Лонгслив Archive",
+    "price": 3290,
+    "oldPrice": null,
+    "category": "Футболки",
+    "brand": "North Club",
+    "colors": ["#e8e0d5", "#5b3a29"],
+    "sizes": ["S", "M", "L"],
+    "images": [
+      "https://images.unsplash.com/photo-1618354691792-d1d42acfd860?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "100% органический хлопок · 200 г/м²",
+    "material": "100% Хлопок",
+    "inStock": true,
+    "isNew": true,
+    "isBestseller": false
+  },
+  {
+    "id": 9,
+    "title": "Пальто Oversized Wool",
+    "price": 12990,
+    "oldPrice": 15990,
+    "category": "Куртки",
+    "brand": "Monochrome",
+    "colors": ["#2e2924", "#c2bdb7"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "70% шерсть, 30% полиэстер · 550 г/м²",
+    "material": "Шерсть",
+    "inStock": true,
+    "isNew": false,
+    "isBestseller": true
+  },
+  {
+    "id": 10,
+    "title": "Шорты Terry Sport",
+    "price": 2790,
+    "oldPrice": null,
+    "category": "Аксессуары",
+    "brand": "Urban Wear",
+    "colors": ["#e2ddd5", "#1c1c1c", "#4a6741"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1562886877-f77c3ac8d8aa?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1571945153237-4929e783af4a?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "100% хлопок, петельчатый трикотаж",
+    "material": "100% Хлопок",
+    "inStock": true,
+    "isNew": true,
+    "isBestseller": false
+  },
+  {
+    "id": 11,
+    "title": "Ветровка Shell",
+    "price": 7490,
+    "oldPrice": null,
+    "category": "Куртки",
+    "brand": "Denim Lab",
+    "colors": ["#1a3a5c", "#c2432a"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1598522325074-042db73aa4e6?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1617196034183-421b4040ed20?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "100% нейлон, подкладка полиэстер",
+    "material": "Полиэстер",
+    "inStock": true,
+    "isNew": false,
+    "isBestseller": false
+  },
+  {
+    "id": 12,
+    "title": "Толстовка на молнии Zip-Up",
+    "price": 4990,
+    "oldPrice": 5990,
+    "category": "Худи",
+    "brand": "Monochrome",
+    "colors": ["#b3b3b3", "#2e2e2e"],
+    "sizes": ["S", "M", "L", "XL"],
+    "images": [
+      "https://images.unsplash.com/photo-1591217780920-f9df4f4f97a3?auto=format&fit=crop&w=800&q=85",
+      "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?auto=format&fit=crop&w=800&q=85"
+    ],
+    "fabric": "80% хлопок, 20% полиэстер · 340 г/м²",
+    "material": "Полиэстер",
+    "inStock": true,
+    "isNew": false,
+    "isBestseller": true
+  }
+]
