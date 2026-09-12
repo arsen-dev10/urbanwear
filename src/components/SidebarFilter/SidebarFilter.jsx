@@ -7,7 +7,7 @@ const MATERIALS  = ['100% Хлопок', 'Деним', 'Шерсть', 'Поли
 const PRICE_MIN  = 0;
 const PRICE_MAX  = 15000;
 
-export default function SidebarFilter({ filters, onChange }) {
+export default function SidebarFilter({ filters, onChange, isOpen, onClose }) {
   const { products } = useProducts();
   const [showAllBrands, setShowAllBrands] = useState(false);
 
@@ -33,7 +33,7 @@ export default function SidebarFilter({ filters, onChange }) {
     onChange({ ...filters, priceMax: val });
   };
 
-  const reset = () =>
+  const reset = () => {
     onChange({
       categories: [],
       brands: [],
@@ -43,17 +43,24 @@ export default function SidebarFilter({ filters, onChange }) {
       priceMax: PRICE_MAX,
       inStock: false,
     });
+  };
 
   const brandCount = (brand) =>
     products.filter(
       (p) => p.brand === brand && p.price >= filters.priceMin && p.price <= filters.priceMax
     ).length;
 
-  return (
-    <aside className="sidebar" aria-label="Фильтры">
+  const inner = (
+    <div className="sidebar__inner">
       <div className="sidebar__head">
         <h3>Фильтры</h3>
-        <button className="sidebar__reset" onClick={reset}>Сбросить</button>
+        <div className="sidebar__head-actions">
+          <button className="sidebar__reset" onClick={reset}>Сбросить</button>
+          {/* Close button — only visible on mobile */}
+          <button className="sidebar__close" onClick={onClose} aria-label="Закрыть фильтры">
+            ✕
+          </button>
+        </div>
       </div>
 
       {/* In stock */}
@@ -77,7 +84,11 @@ export default function SidebarFilter({ filters, onChange }) {
         <div className="filter-accordion__body">
           {CATEGORIES.map((cat) => (
             <label key={cat} className="filter-check">
-              <input type="checkbox" checked={filters.categories.includes(cat)} onChange={() => toggle('categories', cat)} />
+              <input
+                type="checkbox"
+                checked={filters.categories.includes(cat)}
+                onChange={() => toggle('categories', cat)}
+              />
               {cat}
             </label>
           ))}
@@ -95,7 +106,7 @@ export default function SidebarFilter({ filters, onChange }) {
               <div
                 className="price-range__fill"
                 style={{
-                  left: `${(filters.priceMin / PRICE_MAX) * 100}%`,
+                  left:  `${(filters.priceMin / PRICE_MAX) * 100}%`,
                   right: `${100 - (filters.priceMax / PRICE_MAX) * 100}%`,
                 }}
               />
@@ -122,7 +133,11 @@ export default function SidebarFilter({ filters, onChange }) {
         <div className="filter-accordion__body">
           {visibleBrands.map((brand) => (
             <label key={brand} className="filter-check">
-              <input type="checkbox" checked={filters.brands.includes(brand)} onChange={() => toggle('brands', brand)} />
+              <input
+                type="checkbox"
+                checked={filters.brands.includes(brand)}
+                onChange={() => toggle('brands', brand)}
+              />
               {brand}
               <span className="filter-check__count">({brandCount(brand)})</span>
             </label>
@@ -143,7 +158,11 @@ export default function SidebarFilter({ filters, onChange }) {
         <div className="filter-accordion__body">
           {MATERIALS.map((mat) => (
             <label key={mat} className="filter-check">
-              <input type="checkbox" checked={filters.materials.includes(mat)} onChange={() => toggle('materials', mat)} />
+              <input
+                type="checkbox"
+                checked={filters.materials.includes(mat)}
+                onChange={() => toggle('materials', mat)}
+              />
               {mat}
             </label>
           ))}
@@ -171,6 +190,17 @@ export default function SidebarFilter({ filters, onChange }) {
           </div>
         </div>
       </details>
+
+      {/* Apply button — mobile only */}
+      <button className="sidebar__apply" onClick={onClose}>
+        Показать результаты
+      </button>
+    </div>
+  );
+
+  return (
+    <aside className={`sidebar${isOpen ? ' sidebar--open' : ''}`} aria-label="Фильтры">
+      {inner}
     </aside>
   );
 }

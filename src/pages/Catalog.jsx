@@ -15,9 +15,22 @@ const DEFAULT_FILTERS = {
   inStock: false,
 };
 
+function activeFilterCount(filters) {
+  return (
+    filters.categories.length +
+    filters.brands.length +
+    filters.materials.length +
+    filters.colors.length +
+    (filters.inStock ? 1 : 0) +
+    (filters.priceMin > 0 ? 1 : 0) +
+    (filters.priceMax < 15000 ? 1 : 0)
+  );
+}
+
 export default function Catalog() {
   const { products, loading } = useProducts();
   const [searchParams] = useSearchParams();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [filters, setFilters] = useState(() => {
     const cat   = searchParams.get('cat');
@@ -52,22 +65,67 @@ export default function Catalog() {
     return result;
   }, [products, filters, query, sort]);
 
+  const filterCount = activeFilterCount(filters);
+
   return (
     <div className="catalog-layout">
-      <SidebarFilter filters={filters} onChange={setFilters} />
+      {/* Sidebar — desktop always visible, mobile = drawer */}
+      <SidebarFilter
+        filters={filters}
+        onChange={setFilters}
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
+
+      {/* Overlay for mobile drawer */}
+      {drawerOpen && (
+        <div
+          className="catalog-drawer-overlay"
+          onClick={() => setDrawerOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       <section className="catalog-main">
-        <SortBar count={filtered.length} query={query} onQuery={setQuery} sort={sort} onSort={setSort} />
-        <p className="count-label">Найдено: {loading ? '…' : `${filtered.length} товаров`}</p>
+        {/* Mobile filter toggle button ⋮ */}
+        <button
+          className="catalog-filter-btn"
+          onClick={() => setDrawerOpen((v) => !v)}
+          aria-label={drawerOpen ? 'Закрыть фильтры' : 'Открыть фильтры'}
+          aria-expanded={drawerOpen}
+        >
+          <span className="catalog-filter-btn__dots">⋮</span>
+          Фильтры
+          {filterCount > 0 && (
+            <span className="catalog-filter-btn__badge">{filterCount}</span>
+          )}
+        </button>
+
+        <SortBar
+          count={filtered.length}
+          query={query}
+          onQuery={setQuery}
+          sort={sort}
+          onSort={setSort}
+        />
+
+        <p className="count-label">
+          Найдено: {loading ? '…' : `${filtered.length} товаров`}
+        </p>
 
         {loading ? (
           <div className="catalog-grid">
-            {[...Array(6)].map((_, i) => <div key={i} className="product-card skeleton-card" />)}
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="product-card skeleton-card" />
+            ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="catalog-empty">
             <p>По вашему запросу ничего не найдено.</p>
-            <button className="empty-state__btn" onClick={() => { setFilters(DEFAULT_FILTERS); setQuery(''); }}>
+            <button
+              className="empty-state__btn"
+              onClick={() => { setFilters(DEFAULT_FILTERS); setQuery(''); }}
+            >
               Сбросить фильтры
             </button>
           </div>
