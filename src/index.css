@@ -184,23 +184,37 @@ img { display: block; max-width: 100%; }
 
 /* ─── HERO BANNER ──────────────────────────────────────────── */
 .hero {
-  height: 400px;
-  background: var(--accent2);
+  height: 420px;
+  background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 50%, #5ba4d4 100%);
   display: flex;
   align-items: center;
   padding: 0 10% 0 12%;
   position: relative;
   overflow: hidden;
 }
+/* облако снизу */
 .hero::after {
   content: '';
   position: absolute;
-  width: 140%;
-  height: 240px;
+  width: 160%;
+  height: 280px;
   background: var(--surface);
-  bottom: -185px;
-  left: -20%;
+  bottom: -210px;
+  left: -30%;
   border-radius: 50%;
+  box-shadow: 0 -8px 40px rgba(255,255,255,.15);
+}
+/* декоративные облака */
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 120px;
+  background: rgba(255,255,255,.07);
+  border-radius: 50%;
+  top: 30px;
+  left: 5%;
+  filter: blur(20px);
 }
 .hero__copy { z-index: 2; max-width: 420px; }
 .hero__eyebrow {
@@ -208,7 +222,7 @@ img { display: block; max-width: 100%; }
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-  opacity: .7;
+  color: rgba(255,255,255,.7);
 }
 .hero__title {
   font-size: 44px;
@@ -216,25 +230,27 @@ img { display: block; max-width: 100%; }
   line-height: 1.06;
   letter-spacing: -2px;
   margin: 16px 0 10px;
+  color: #fff;
 }
-.hero__title em { color: var(--accent); font-style: normal; }
-.hero__sub { font-size: 12px; opacity: .75; line-height: 1.55; }
+.hero__title em { color: #a8d8f0; font-style: normal; }
+.hero__sub { font-size: 12px; color: rgba(255,255,255,.8); line-height: 1.55; }
 .hero__btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-top: 22px;
   padding: 14px 22px;
-  background: var(--dark);
-  color: #fff;
+  background: #fff;
+  color: #1a3a5c;
   border-radius: var(--radius);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 11px;
   border: none;
   cursor: pointer;
-  transition: background .18s, transform .12s;
+  transition: background .18s, transform .12s, box-shadow .18s;
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
 }
-.hero__btn:hover { background: #333; transform: translateY(-1px); }
+.hero__btn:hover { background: #f0f8ff; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.2); }
 .hero__visual {
   position: absolute;
   right: 8%;
@@ -247,22 +263,24 @@ img { display: block; max-width: 100%; }
   position: absolute;
   width: 255px;
   height: 255px;
-  background: var(--accent);
+  background: radial-gradient(circle at 40% 40%, #5bbfff, #1a6aad);
   border-radius: 50%;
   top: 0;
   right: 25px;
-  opacity: .9;
+  opacity: .85;
+  box-shadow: 0 20px 60px rgba(26,58,92,.4);
 }
 .hero__visual img {
   position: absolute;
   width: 270px;
-  height: 300px;
+  height: 310px;
   object-fit: cover;
-  object-position: 50% 15%;
+  object-position: 50% 10%;
   right: 5px;
-  top: 15px;
-  border-radius: 130px 130px 12px 12px;
-  filter: contrast(1.06) saturate(1.05);
+  top: 10px;
+  border-radius: 140px 140px 16px 16px;
+  filter: contrast(1.05) saturate(1.15) brightness(1.03);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
 }
 
 /* ─── CATEGORY CHIPS ───────────────────────────────────────── */
@@ -1227,9 +1245,9 @@ details[open] .filter-accordion__arrow { transform: rotate(180deg); }
   .header__search input { width: 140px; }
   .header__search input:focus { width: 170px; }
 
-  .hero { padding: 0 8% 0 8%; height: 340px; }
-  .hero__title { font-size: 34px; }
-  .hero__visual { opacity: .35; right: -40px; }
+  .hero { padding: 0 8% 0 8%; height: 360px; }
+  .hero__title { font-size: 34px; color: #fff; }
+  .hero__visual { opacity: .3; right: -40px; }
   .hero__copy { max-width: 100%; }
 
   .home-content { padding: 0 22px 30px; }
