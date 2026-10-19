@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-import { isValidPhoneNumber } from 'libphonenumber-js';
+import PhoneField from '../PhoneField/PhoneField';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatRub } from '../../utils/format';
@@ -23,12 +21,12 @@ export default function CheckoutForm({ onSuccess }) {
 
   const [state, handleFormspreeSubmit] = useForm(FORMSPREE_ID);
 
-  const [name,    setName]    = useState(currentUser?.displayName || '');
-  const [phone,   setPhone]   = useState('');        // полный номер с кодом
-  const [country, setCountry] = useState('ru');      // код страны для валидации
-  const [address, setAddress] = useState('');
-  const [payment, setPayment] = useState('card');
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [name,         setName]         = useState(currentUser?.displayName || '');
+  const [phone,        setPhone]        = useState('');
+  const [phoneValid,   setPhoneValid]   = useState(false);
+  const [address,      setAddress]      = useState('');
+  const [payment,      setPayment]      = useState('card');
+  const [fieldErrors,  setFieldErrors]  = useState({});
 
   useEffect(() => {
     if (!state.succeeded) return;
@@ -36,7 +34,7 @@ export default function CheckoutForm({ onSuccess }) {
       createdAt:  new Date().toISOString(),
       status:     'new',
       name,
-      phone:      '+' + phone,
+      phone,
       address,
       email:      currentUser?.email || '',
       payment:    payment === 'card' ? 'Картой онлайн' : 'При получении',
@@ -56,9 +54,8 @@ export default function CheckoutForm({ onSuccess }) {
 
   const validate = () => {
     const e = {};
-    if (!name.trim()) e.name = 'Введите ваше имя';
-    if (!phone || !isValidPhoneNumber('+' + phone))
-      e.phone = 'Введите корректный номер телефона';
+    if (!name.trim())   e.name  = 'Введите ваше имя';
+    if (!phoneValid)    e.phone = 'Введите корректный номер телефона';
     if (!address.trim()) e.address = 'Введите адрес доставки';
     return e;
   };
@@ -74,9 +71,7 @@ export default function CheckoutForm({ onSuccess }) {
       .join('\n');
 
     handleFormspreeSubmit({
-      name,
-      phone:   '+' + phone,
-      address,
+      name, phone, address,
       payment: payment === 'card' ? 'Картой онлайн' : 'При получении',
       total:   formatRub(cartTotal),
       cart:    cartSummary,
@@ -99,7 +94,6 @@ export default function CheckoutForm({ onSuccess }) {
         <div className="checkout-field">
           <input
             type="text"
-            name="name"
             placeholder="Ваше имя"
             value={name}
             onChange={(e) => { setName(e.target.value); setFieldErrors((p) => ({ ...p, name: '' })); }}
@@ -123,26 +117,14 @@ export default function CheckoutForm({ onSuccess }) {
           </div>
         )}
 
-        {/* Телефон с выбором страны */}
+        {/* Телефон */}
         <div className="checkout-field">
-          <div className={`phone-input-wrap${fieldErrors.phone ? ' phone-input-wrap--error' : ''}`}>
-            <PhoneInput
-              country={country}
-              value={phone}
-              onChange={(value, data) => {
-                setPhone(value);
-                setCountry(data.countryCode || country);
-                setFieldErrors((p) => ({ ...p, phone: '' }));
-              }}
-              inputProps={{ name: 'phone', required: true, 'aria-label': 'Телефон' }}
-              enableSearch
-              searchPlaceholder="Поиск страны…"
-              searchNotFound="Страна не найдена"
-              specialLabel=""
-              preferredCountries={['ru', 'kg', 'kz', 'ua', 'by', 'uz']}
-              countryCodeEditable={false}
-            />
-          </div>
+          <PhoneField
+            value={phone}
+            onChange={(val) => { setPhone(val); setFieldErrors((p) => ({ ...p, phone: '' })); }}
+            onValidChange={setPhoneValid}
+            error={fieldErrors.phone}
+          />
           {fieldErrors.phone && <span className="checkout-field-error">{fieldErrors.phone}</span>}
         </div>
 
@@ -150,7 +132,6 @@ export default function CheckoutForm({ onSuccess }) {
         <div className="checkout-field">
           <input
             type="text"
-            name="address"
             placeholder="Адрес доставки"
             value={address}
             onChange={(e) => { setAddress(e.target.value); setFieldErrors((p) => ({ ...p, address: '' })); }}
