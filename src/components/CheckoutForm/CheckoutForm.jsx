@@ -4,7 +4,16 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatRub } from '../../utils/format';
 
-const FORMSPREE_ID = 'myeynzeq';
+const FORMSPREE_ID  = 'myeynzeq';
+const ORDERS_API    = 'https://6aa130572703577aa1e36392.mockapi.io/orders';
+
+/* отправить заказ в MockAPI */
+const postOrder = (order) =>
+  fetch(ORDERS_API, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(order),
+  }).then((r) => r.json());
 
 export default function CheckoutForm({ onSuccess }) {
   const { cart, cartTotal, clearCart } = useCart();
@@ -12,18 +21,41 @@ export default function CheckoutForm({ onSuccess }) {
 
   const [state, handleFormspreeSubmit] = useForm(FORMSPREE_ID);
 
-  const [name, setName]       = useState(currentUser?.displayName || '');
-  const [phone, setPhone]     = useState('');
+  const [name,    setName]    = useState(currentUser?.displayName || '');
+  const [phone,   setPhone]   = useState('');
   const [address, setAddress] = useState('');
   const [payment, setPayment] = useState('card');
   const [fieldErrors, setFieldErrors] = useState({});
 
-  // When Formspree reports success — clear cart and notify parent
+  /* после успешной отправки Formspree → сохранить в MockAPI → очистить корзину */
   useEffect(() => {
-    if (state.succeeded) {
-      clearCart();
-      onSuccess();
-    }
+    if (!state.succeeded) return;
+
+    const order = {
+      createdAt:   new Date().toISOString(),
+      status:      'new',
+      name,
+      phone,
+      address,
+      email:       currentUser?.email || '',
+      payment:     payment === 'card' ? 'Картой онлайн' : 'При получении',
+      total:       cartTotal,
+      totalFmt:    formatRub(cartTotal),
+      itemsCount:  cart.reduce((s, i) => s + i.qty, 0),
+      items:       cart.map((i) => ({
+        id:    i.id,
+        title: i.title,
+        size:  i.size,
+        color: i.color,
+        qty:   i.qty,
+        price: i.price,
+      })),
+    };
+
+    postOrder(order).catch(() => {}); // сохраняем в фоне, не блокируем UX
+    clearCart();
+    onSuccess();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.succeeded]);
 
   const validate = () => {
@@ -37,27 +69,21 @@ export default function CheckoutForm({ onSuccess }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const errs = validate();
-    if (Object.keys(errs).length) {
-      setFieldErrors(errs);
-      return;
-    }
+    if (Object.keys(errs).length) { setFieldErrors(errs); return; }
     setFieldErrors({});
 
-    // Build a readable cart summary for the email
     const cartSummary = cart
-      .map((item) => `${item.title} (${item.size}, цвет: ${item.color}) × ${item.qty} = ${formatRub(item.price * item.qty)}`)
+      .map((item) => `${item.title} (${item.size}) × ${item.qty} = ${formatRub(item.price * item.qty)}`)
       .join('\n');
 
-    // Inject hidden fields into the native form element before Formspree submits
     handleFormspreeSubmit({
       name,
       phone,
       address,
       payment: payment === 'card' ? 'Картой онлайн' : 'При получении',
-      total: formatRub(cartTotal),
-      cart: cartSummary,
-      // prefill email from Firebase user if available
-      email: currentUser?.email || '',
+      total:   formatRub(cartTotal),
+      cart:    cartSummary,
+      email:   currentUser?.email || '',
     });
   };
 
@@ -86,7 +112,7 @@ export default function CheckoutForm({ onSuccess }) {
           {fieldErrors.name && <span className="checkout-field-error">{fieldErrors.name}</span>}
         </div>
 
-        {/* Email (shown only when not logged in, required by Formspree) */}
+        {/* Email — только если не залогинен */}
         {!currentUser && (
           <div className="checkout-field">
             <input
@@ -128,38 +154,21 @@ export default function CheckoutForm({ onSuccess }) {
           {fieldErrors.address && <span className="checkout-field-error">{fieldErrors.address}</span>}
         </div>
 
-        {/* Payment method */}
+        {/* Payment */}
         <div className="payment-methods" role="group" aria-label="Способ оплаты">
-          <button
-            type="button"
-            className={`payment-method${payment === 'card' ? ' selected' : ''}`}
-            onClick={() => setPayment('card')}
-            aria-pressed={payment === 'card'}
-          >
+          <button type="button" className={`payment-method${payment === 'card' ? ' selected' : ''}`} onClick={() => setPayment('card')} aria-pressed={payment === 'card'}>
             💳 Картой онлайн
           </button>
-          <button
-            type="button"
-            className={`payment-method${payment === 'cash' ? ' selected' : ''}`}
-            onClick={() => setPayment('cash')}
-            aria-pressed={payment === 'cash'}
-          >
+          <button type="button" className={`payment-method${payment === 'cash' ? ' selected' : ''}`} onClick={() => setPayment('cash')} aria-pressed={payment === 'cash'}>
             💵 При получении
           </button>
         </div>
 
-        {/* Formspree general error */}
-        {state.errors && state.errors.length > 0 && !state.errors.some((e) => e.field) && (
-          <div className="checkout-submit-error">
-            Не удалось отправить заказ. Попробуйте ещё раз.
-          </div>
+        {state.errors?.length > 0 && !state.errors.some((e) => e.field) && (
+          <div className="checkout-submit-error">Не удалось отправить заказ. Попробуйте ещё раз.</div>
         )}
 
-        <button
-          type="submit"
-          className="btn-order"
-          disabled={state.submitting}
-        >
+        <button type="submit" className="btn-order" disabled={state.submitting}>
           {state.submitting ? 'Отправляем…' : 'Оформить заказ'}
         </button>
       </form>

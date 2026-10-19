@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 const NAV = [
   { to: '/admin',          label: 'Дашборд',  icon: '▦' },
   { to: '/admin/products', label: 'Товары',    icon: '🛍' },
+  { to: '/admin/orders',   label: 'Заказы',    icon: '📋' },
   { to: '/admin/settings', label: 'Настройки', icon: '⚙' },
 ];
 

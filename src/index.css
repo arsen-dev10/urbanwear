@@ -2357,3 +2357,77 @@ details[open] .filter-accordion__arrow { transform: rotate(180deg); }
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* ─── Admin Orders ──────────────────────────────────────────── */
+.admin-badge--blue   { background: #dbeafe; color: #1d4ed8; }
+.admin-badge--purple { background: #ede9fe; color: #7c3aed; }
+
+.admin-orders__row { transition: background .15s; }
+.admin-orders__row--open td { background: #fafbff; }
+
+.admin-orders__status-select {
+  border: 1.5px solid var(--a-border);
+  border-radius: 7px;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--a-surface);
+  color: var(--a-text);
+  cursor: pointer;
+  outline: none;
+  transition: border-color .15s;
+}
+.admin-orders__status-select:focus { border-color: var(--accent); }
+
+.admin-orders__detail-row td { padding: 0 !important; border-bottom: 2px solid var(--a-border); }
+.admin-orders__detail {
+  background: #f8f9fb;
+  padding: 18px 20px;
+  animation: slide-down .18s ease;
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.admin-orders__detail-cols {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.admin-orders__detail-label {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--a-muted);
+  margin-bottom: 3px;
+}
+.admin-orders__items { display: flex; flex-direction: column; gap: 6px; }
+.admin-orders__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--a-surface);
+  border: 1px solid var(--a-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+.admin-orders__item-title { flex: 1; font-weight: 600; }
+.admin-orders__item-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--a-muted);
+  font-size: 11px;
+}
+.admin-orders__item-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--a-border);
+  flex-shrink: 0;
+}
+.admin-orders__item-qty { color: var(--a-muted); font-size: 11px; }
+.admin-orders__item-price { font-weight: 800; white-space: nowrap; }

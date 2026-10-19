@@ -6,6 +6,7 @@ import AdminLayout from './admin/AdminLayout';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import AdminProducts from './admin/AdminProducts';
+import AdminOrders from './admin/AdminOrders';
 import AdminSettings from './admin/AdminSettings';
 import Home from './pages/Home';
 import Catalog from './pages/Catalog';
@@ -47,9 +48,10 @@ export const myRouter = createBrowserRouter([
     path: '/admin',
     element: <AdminRoute><AdminLayout /></AdminRoute>,
     children: [
-      { index: true,          element: <AdminDashboard /> },
-      { path: 'products',     element: <AdminProducts /> },
-      { path: 'settings',     element: <AdminSettings /> },
+      { index: true,       element: <AdminDashboard /> },
+      { path: 'products',  element: <AdminProducts /> },
+      { path: 'orders',    element: <AdminOrders /> },
+      { path: 'settings',  element: <AdminSettings /> },
     ],
   },
 ]);
