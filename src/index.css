@@ -2431,3 +2431,91 @@ details[open] .filter-accordion__arrow { transform: rotate(180deg); }
 }
 .admin-orders__item-qty { color: var(--a-muted); font-size: 11px; }
 .admin-orders__item-price { font-weight: 800; white-space: nowrap; }
+
+/* ─── Phone Input (react-phone-input-2) ────────────────────── */
+.phone-input-wrap .react-tel-input { width: 100%; }
+
+.phone-input-wrap .react-tel-input .form-control {
+  width: 100% !important;
+  height: 44px !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-family: var(--font) !important;
+  color: var(--dark) !important;
+  background: #fafafa !important;
+  padding-left: 52px !important;
+  outline: none !important;
+  transition: border-color .15s, background .15s !important;
+  box-shadow: none !important;
+}
+.phone-input-wrap .react-tel-input .form-control:focus {
+  border-color: var(--accent) !important;
+  background: #fff !important;
+}
+.phone-input-wrap--error .react-tel-input .form-control {
+  border-color: #dc2626 !important;
+}
+
+.phone-input-wrap .react-tel-input .flag-dropdown {
+  border: 1.5px solid var(--border) !important;
+  border-right: none !important;
+  border-radius: 8px 0 0 8px !important;
+  background: #f3f2f0 !important;
+  transition: border-color .15s !important;
+}
+.phone-input-wrap .react-tel-input .form-control:focus + .flag-dropdown,
+.phone-input-wrap .react-tel-input .flag-dropdown:hover {
+  border-color: var(--accent) !important;
+}
+.phone-input-wrap--error .react-tel-input .flag-dropdown {
+  border-color: #dc2626 !important;
+}
+
+.phone-input-wrap .react-tel-input .selected-flag {
+  padding: 0 8px 0 10px !important;
+  border-radius: 8px 0 0 8px !important;
+  background: transparent !important;
+}
+.phone-input-wrap .react-tel-input .selected-flag:hover,
+.phone-input-wrap .react-tel-input .selected-flag:focus {
+  background: #ebe9e5 !important;
+}
+
+/* Dropdown */
+.phone-input-wrap .react-tel-input .country-list {
+  border-radius: 10px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,.12) !important;
+  border: 1px solid var(--border) !important;
+  font-family: var(--font) !important;
+  font-size: 12px !important;
+  max-height: 220px !important;
+  z-index: 999 !important;
+}
+.phone-input-wrap .react-tel-input .country-list .country:hover,
+.phone-input-wrap .react-tel-input .country-list .country.highlight {
+  background: #fff5f0 !important;
+}
+.phone-input-wrap .react-tel-input .country-list .search {
+  padding: 8px 10px !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+.phone-input-wrap .react-tel-input .country-list .search-box {
+  width: 100% !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: 7px !important;
+  padding: 7px 10px !important;
+  font-size: 12px !important;
+  font-family: var(--font) !important;
+  outline: none !important;
+}
+.phone-input-wrap .react-tel-input .country-list .search-box:focus {
+  border-color: var(--accent) !important;
+}
+.phone-input-wrap .react-tel-input .country-list .country-name {
+  font-size: 12px !important;
+}
+.phone-input-wrap .react-tel-input .country-list .dial-code {
+  color: var(--muted) !important;
+  font-size: 11px !important;
+}

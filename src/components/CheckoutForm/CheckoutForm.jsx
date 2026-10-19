@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatRub } from '../../utils/format';
 
-const FORMSPREE_ID  = 'myeynzeq';
-const ORDERS_API    = 'https://6aa130572703577aa1e36392.mockapi.io/orders';
+const FORMSPREE_ID = 'myeynzeq';
+const ORDERS_API   = 'https://6aa130572703577aa1e36392.mockapi.io/orders';
 
-/* отправить заказ в MockAPI */
 const postOrder = (order) =>
   fetch(ORDERS_API, {
     method:  'POST',
@@ -22,37 +23,31 @@ export default function CheckoutForm({ onSuccess }) {
   const [state, handleFormspreeSubmit] = useForm(FORMSPREE_ID);
 
   const [name,    setName]    = useState(currentUser?.displayName || '');
-  const [phone,   setPhone]   = useState('');
+  const [phone,   setPhone]   = useState('');        // полный номер с кодом
+  const [country, setCountry] = useState('ru');      // код страны для валидации
   const [address, setAddress] = useState('');
   const [payment, setPayment] = useState('card');
   const [fieldErrors, setFieldErrors] = useState({});
 
-  /* после успешной отправки Formspree → сохранить в MockAPI → очистить корзину */
   useEffect(() => {
     if (!state.succeeded) return;
-
     const order = {
-      createdAt:   new Date().toISOString(),
-      status:      'new',
+      createdAt:  new Date().toISOString(),
+      status:     'new',
       name,
-      phone,
+      phone:      '+' + phone,
       address,
-      email:       currentUser?.email || '',
-      payment:     payment === 'card' ? 'Картой онлайн' : 'При получении',
-      total:       cartTotal,
-      totalFmt:    formatRub(cartTotal),
-      itemsCount:  cart.reduce((s, i) => s + i.qty, 0),
-      items:       cart.map((i) => ({
-        id:    i.id,
-        title: i.title,
-        size:  i.size,
-        color: i.color,
-        qty:   i.qty,
-        price: i.price,
+      email:      currentUser?.email || '',
+      payment:    payment === 'card' ? 'Картой онлайн' : 'При получении',
+      total:      cartTotal,
+      totalFmt:   formatRub(cartTotal),
+      itemsCount: cart.reduce((s, i) => s + i.qty, 0),
+      items:      cart.map((i) => ({
+        id: i.id, title: i.title, size: i.size,
+        color: i.color, qty: i.qty, price: i.price,
       })),
     };
-
-    postOrder(order).catch(() => {}); // сохраняем в фоне, не блокируем UX
+    postOrder(order).catch(() => {});
     clearCart();
     onSuccess();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,8 +55,9 @@ export default function CheckoutForm({ onSuccess }) {
 
   const validate = () => {
     const e = {};
-    if (!name.trim())    e.name    = 'Введите ваше имя';
-    if (!phone.trim())   e.phone   = 'Введите номер телефона';
+    if (!name.trim()) e.name = 'Введите ваше имя';
+    if (!phone || !isValidPhoneNumber('+' + phone))
+      e.phone = 'Введите корректный номер телефона';
     if (!address.trim()) e.address = 'Введите адрес доставки';
     return e;
   };
@@ -78,7 +74,7 @@ export default function CheckoutForm({ onSuccess }) {
 
     handleFormspreeSubmit({
       name,
-      phone,
+      phone:   '+' + phone,
       address,
       payment: payment === 'card' ? 'Картой онлайн' : 'При получении',
       total:   formatRub(cartTotal),
@@ -98,7 +94,7 @@ export default function CheckoutForm({ onSuccess }) {
 
       <form className="checkout-form" onSubmit={handleSubmit} noValidate>
 
-        {/* Name */}
+        {/* Имя */}
         <div className="checkout-field">
           <input
             type="text"
@@ -126,21 +122,30 @@ export default function CheckoutForm({ onSuccess }) {
           </div>
         )}
 
-        {/* Phone */}
+        {/* Телефон с выбором страны */}
         <div className="checkout-field">
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Телефон"
-            value={phone}
-            onChange={(e) => { setPhone(e.target.value); setFieldErrors((p) => ({ ...p, phone: '' })); }}
-            className={fieldErrors.phone ? 'error' : ''}
-            aria-label="Телефон"
-          />
+          <div className={`phone-input-wrap${fieldErrors.phone ? ' phone-input-wrap--error' : ''}`}>
+            <PhoneInput
+              country={country}
+              value={phone}
+              onChange={(value, data) => {
+                setPhone(value);
+                setCountry(data.countryCode || country);
+                setFieldErrors((p) => ({ ...p, phone: '' }));
+              }}
+              inputProps={{ name: 'phone', required: true, 'aria-label': 'Телефон' }}
+              enableSearch
+              searchPlaceholder="Поиск страны…"
+              searchNotFound="Страна не найдена"
+              specialLabel=""
+              preferredCountries={['ru', 'kg', 'kz', 'ua', 'by', 'uz']}
+              countryCodeEditable={false}
+            />
+          </div>
           {fieldErrors.phone && <span className="checkout-field-error">{fieldErrors.phone}</span>}
         </div>
 
-        {/* Address */}
+        {/* Адрес */}
         <div className="checkout-field">
           <input
             type="text"
@@ -154,7 +159,7 @@ export default function CheckoutForm({ onSuccess }) {
           {fieldErrors.address && <span className="checkout-field-error">{fieldErrors.address}</span>}
         </div>
 
-        {/* Payment */}
+        {/* Способ оплаты */}
         <div className="payment-methods" role="group" aria-label="Способ оплаты">
           <button type="button" className={`payment-method${payment === 'card' ? ' selected' : ''}`} onClick={() => setPayment('card')} aria-pressed={payment === 'card'}>
             💳 Картой онлайн
