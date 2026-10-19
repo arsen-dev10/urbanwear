@@ -1255,7 +1255,7 @@ details[open] .filter-accordion__arrow { transform: rotate(180deg); }
   .mini-cart { display: none; }
   .featured-grid { grid-template-columns: repeat(2, 1fr); }
 
-  .catalog-layout { grid-template-columns: 1fr; }
+  .catalog-layout { grid-template-columns: 1fr; min-height: 0; }
   .catalog-main { padding: 16px; }
   .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
@@ -1720,6 +1720,7 @@ details[open] .filter-accordion__arrow { transform: rotate(180deg); }
 
   /* sidebar becomes bottom sheet drawer */
   .sidebar {
+    display: none; /* убираем из потока пока закрыт */
     position: fixed;
     left: 0;
     bottom: 0;
@@ -1735,6 +1736,7 @@ details[open] .filter-accordion__arrow { transform: rotate(180deg); }
     background: var(--card);
   }
   .sidebar--open {
+    display: block; /* показываем только когда открыт */
     transform: translateY(0);
   }
 
