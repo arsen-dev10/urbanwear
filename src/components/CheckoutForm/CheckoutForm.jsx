@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-input-2';
+import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatRub } from '../../utils/format';
